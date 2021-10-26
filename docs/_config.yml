@@ -1,0 +1,6 @@
+theme: jekyll-theme-modernist
+title: The Dir next generation
+description: Concept of recursive dir with machine parseable format (JSON, YAML).
+markdown: GFM
+highlighter: rouge
+

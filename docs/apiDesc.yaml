@@ -1,0 +1,115 @@
+openapi: "3.0.3"
+info:
+  title: Demo API
+  description: Web service API for Demo
+  version: "1.0.0"
+  contact:
+    name: "Original author"
+    email: "you@example.com"
+security:
+  - api_key: []
+  - google: [admin, user]
+servers:
+  - url: http://localhost:8080/v1
+    description: reference server
+paths:
+  /multipart/{user_ref}:
+    post:
+      summary: "Create the environment (multipart/form-data), linear"
+      description: >
+        with rich set of variables provided as a part of request
+      operationId: apiSrv.cmd_create_flat
+      parameters:
+        - $ref: "#/components/parameters/UserRef"
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/CreateOp"
+            encoding:
+              vars:
+                contentType: application/json
+      responses:
+        200:
+          description: "Success"
+  /json/{user_ref}:
+    post:
+      summary: "Create the environment (multipart/form-data), linear"
+      description: >
+        with rich set of variables provided as a part of request
+      operationId: apiSrv.cmd_create_json
+      parameters:
+        - $ref: "#/components/parameters/UserRef"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateOp"
+      responses:
+        200:
+          description: "Success"
+components:
+  securitySchemes:
+    api_key:
+      type: apiKey
+      in: header
+      name: X-Auth
+      x-apikeyInfoFunc: apiSrv.api_key
+    google:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: "https://accounts.google.com/o/oauth2/v2/auth"
+          tokenUrl: "https://www.googleapis.com/oauth2/v4/token"
+          scopes:
+            admin: Admin scope
+            user: User scope
+  parameters:
+    UserRef:
+      name: user_ref
+      description: The identification of target user (by email)
+      in: path
+      required: true
+      schema:
+        type: string
+        format: email
+        example: "user_007@example.com"
+  schemas:
+    Vars:
+      title: "Known variable names and example values"
+      type: object
+      properties:
+        infra:
+          type: string
+          enum: [one, five, none]
+        ssh_pub_key:
+          type: array
+          items:
+            type: string
+          example:
+            - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDL...= your-id"
+            - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDL...= your-id2"
+        ipv4:
+          type: array
+          items:
+            type: string
+          example:
+            - "1.2.3.4/32"
+    CreateOp:
+      title: "Create all in one request, with flat file upload"
+      type: object
+      properties:
+        vars:
+          $ref: "#/components/schemas/Vars"
+        data:
+          type: string
+          format: binary
+          example: "IyEvYmluL2Jhc2gKCkZMQVNLX0RFQlVHPTEgTE9HTEVWRUw9REVCVUcgcHl0aG9uMyBhcGlTcnYucHkK"
+        hash:
+          type: string
+          example: "ce94a9e855cdaa04d95da193611236b6adec16256865662a3d2105858b00fb42"
+        hash_type:
+          type: string
+          example: "sha256"
