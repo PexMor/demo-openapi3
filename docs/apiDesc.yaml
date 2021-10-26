@@ -15,7 +15,7 @@ servers:
 paths:
   /multipart/{user_ref}:
     post:
-      summary: "Create the environment (multipart/form-data), linear"
+      summary: "multipart/form-data"
       description: >
         with rich set of variables provided as a part of request
       operationId: apiSrv.cmd_create_flat
@@ -35,7 +35,7 @@ paths:
           description: "Success"
   /json/{user_ref}:
     post:
-      summary: "Create the environment (multipart/form-data), linear"
+      summary: "application/json"
       description: >
         with rich set of variables provided as a part of request
       operationId: apiSrv.cmd_create_json
