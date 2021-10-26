@@ -78,7 +78,8 @@ components:
         example: "user_007@example.com"
   schemas:
     Vars:
-      title: "Known variable names and example values"
+      title: "Vars"
+      description: "Known variable names and example values"
       type: object
       properties:
         infra:
@@ -98,7 +99,8 @@ components:
           example:
             - "1.2.3.4/32"
     CreateOp:
-      title: "Create all in one request, with flat file upload"
+      title: "CreateOp"
+      description: "Create all in one request, with flat file upload"
       type: object
       properties:
         vars:
