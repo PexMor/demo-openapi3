@@ -2,6 +2,7 @@
 
 [OpenAPI specs](https://swagger.io/specification/)
 
+[API docs using Elements](elements.html)
 
 ## Pros
 
